@@ -169,9 +169,10 @@ class Usuario:
             conn = mysql.connect()  # Establecer la conexión a la base de datos
             cursor = conn.cursor()
 
-            comparador = os.path.relpath(usuario['urlAvatar'], '').replace('\\', '/').replace('https://egyptianapi.onrender.com/static', '')
+            comparador = os.path.relpath(usuario['urlAvatar'], '').replace('\\', '/').replace('https://localhost/static', '')
 
-            if comparador != 'https://egyptianapi.onrender.com/static':
+            if comparador != 'https://localhost/static':
+                print("ENTRO COMPARADOR")
                 sql = "SELECT urlAvatar FROM usuario WHERE id = %s"
                 cursor.execute(sql, (usuario['id'],))
                 resultado = cursor.fetchone()
