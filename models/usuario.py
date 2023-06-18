@@ -141,14 +141,14 @@ class Usuario:
             return {'mensaje': str(ex)}
 
         
-    @staticmethod
+
     # Este método recibe como parámetros el código de una construcción y el nuevo nombre que se desea asignar. 
     # Realiza una actualización en la base de datos para modificar el nombre de la construcción.
     #  Si la actualización se realiza correctamente, se devuelve True. En caso de error, se devuelve False.
     #Firma: @staticmethod def modificarUsuario(codigo: str, nombre_construccion: str) -> json
     #Entradas: Recibe dos parámetros: codigo de tipo str, que representa el código de la construcción a actualizar, y nombre_construccion de tipo str, que representa el nuevo nombre de la construcción.
     #Salida: Devuelve True si la construcción se actualizó correctamente en la base de datos, o False en caso de error.
-    @staticmethod
+    
     def modificar_usuario():
         try:
             usuario = request.get_json()  # Obtener los datos enviados desde el frontend
@@ -158,7 +158,7 @@ class Usuario:
         except Exception as ex:
             print(f"Error en modificar_usuario: {str(ex)}")
 
-    @staticmethod
+    
     def actualizar_usuario(usuario):
         try:
             if 'id' not in usuario:
