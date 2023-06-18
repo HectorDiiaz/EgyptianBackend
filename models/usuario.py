@@ -26,6 +26,8 @@ mysql = MySQL(app)
 ruta_proyecto = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # Ruta del directorio del proyecto
 ruta_imagenes = os.path.join(ruta_proyecto, "static", "imagenes")
 
+print("RUTA PROYECTO:", ruta_proyecto)
+print("RUTA IMAGENES:", ruta_imagenes)
 
 @staticmethod
 def crear_carpetas(ruta):
@@ -148,7 +150,7 @@ class Usuario:
     #Firma: @staticmethod def modificarUsuario(codigo: str, nombre_construccion: str) -> json
     #Entradas: Recibe dos parámetros: codigo de tipo str, que representa el código de la construcción a actualizar, y nombre_construccion de tipo str, que representa el nuevo nombre de la construcción.
     #Salida: Devuelve True si la construcción se actualizó correctamente en la base de datos, o False en caso de error.
-    
+    @staticmethod
     def modificar_usuario():
         try:
             usuario = request.get_json()  # Obtener los datos enviados desde el frontend
@@ -158,7 +160,7 @@ class Usuario:
         except Exception as ex:
             print(f"Error en modificar_usuario: {str(ex)}")
 
-    
+    @staticmethod
     def actualizar_usuario(usuario):
         try:
             if 'id' not in usuario:
