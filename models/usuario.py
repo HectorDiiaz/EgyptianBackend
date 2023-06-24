@@ -118,7 +118,6 @@ class Usuario:
             if resultado:
                 raise Exception("El correo electrónico ya está registrado")
 
-
             sql = "INSERT INTO usuario (nombre, apellido, telefono, correo, password, urlAvatar, sexo, estado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             valores = (usuario['nombre'], usuario['apellido'], usuario['telefono'], usuario['correo'], usuario['password'], usuario['urlAvatar'], usuario['sexo'], usuario['estado'])
             cursor.execute(sql, (valores))
@@ -178,6 +177,19 @@ class Usuario:
             conn.close()  # Cerrar la conexión a la base de datos
 
             return {'mensaje': 'El usuario se actualizó correctamente'}
+        except Exception as ex:
+            print(f"Error en actualizar_usuario: {str(ex)}")
+            return {'mensaje': str(ex)}
+    @staticmethod
+    def eliminarUsuario(id):
+        try:
+            conn = mysql.connect()  
+            cursor = conn.cursor()
+            sql = "UPDATE Proyecto_Integrado_I.usuario SET estado=0 WHERE id= %s"
+            cursor.execute(sql, (id,))
+            conn.commit()  # Confirmar los cambios en la base de datos
+            conn.close()  # Cerrar la conexión a la base de datos
+            return {'mensaje': 'El usuario se elimino correctamente'}
         except Exception as ex:
             print(f"Error en actualizar_usuario: {str(ex)}")
             return {'mensaje': str(ex)}

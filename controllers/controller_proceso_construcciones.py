@@ -1,79 +1,93 @@
 from flask import Blueprint, jsonify, request
 from flaskext.mysql import MySQL
 from config import config
-from models.dioses_model import Dioses
+from models.proceso_construcciones_model import ProcesoConstrucciones
 from flask_cors import CORS
 from flask import Flask
 
-dioses_app = Blueprint('dioses_app', __name__)
+proceso_construcciones_app = Blueprint('proceso_construcciones_app', __name__)
 
 ###################################################################################################
-# Método: listarDioses
+# Método: listarMitosHistorias
 # Descripción:
-# Este método se utiliza para obtener una lista de todos los dioses egipcios.
+# Este método se utiliza para obtener una lista de todos los mitos e historias.
 # Realiza una consulta a la base de datos para obtener los datos de todos los dioses
 # y los devuelve como respuesta en formato JSON.
 #
-# URL: /dioses
+# URL: /mitos-historias
 #
 # Método HTTP: GET
 ###################################################################################################
-@dioses_app.route('/dioses', methods=['GET'])
-def listarDioses():
-    dioses = Dioses.listarDioses()
+@proceso_construcciones_app.route('/proceso_construcciones', methods=['GET'])
+def listarMitosHistorias():
+    proceso_construcciones = ProcesoConstrucciones.listarProcesoConstrucciones()
 
-    if dioses is not None:
-        return jsonify({'dioses': dioses, 'mensaje': "Lista de dioses egipcios"})
+    if proceso_construcciones is not None:
+        return jsonify({'proceso_construcciones': proceso_construcciones, 'mensaje': "Lista de herramientas egipcios"})
     else:
         return jsonify({"mensaje": "Error"})
-    
 ###################################################################################################
-# Método: getDiosesImgById
+# Método: getMitosHistoriasImgById
 # Descripción:
 # Este método se utiliza para obtener las imágenes de un dios específico por su ID.
 # Busca en la base de datos las imágenes asociadas al dios y las devuelve como
 # respuesta en formato JSON.
 #
-# URL: /diosesImgById/<id>
+# URL: /mitosHistoriasImgById/<id>
 #
 # Método HTTP: GET
 # Parámetros de URL: <id> (int): El ID del dios para el cual se desean obtener las imágenes.
 ###################################################################################################
 
-@dioses_app.route('/diosesImgById/<id>', methods=['GET'])
-def getDiosesImgById(id):
-    imagenes = Dioses.getDiosesImgById(id)
+@proceso_construcciones_app.route('/getProcesoConstruccionesImgById/<id>', methods=['GET'])
+def getProcesoConstruccionesImgById(id):
+    imagenes = ProcesoConstrucciones.getProcesoConstruccionesImgById(id)
     if imagenes is not None:
-        return jsonify({'imagenes': imagenes, 'mensaje': "Lista de imagenes dios egipcio"})
+        return jsonify({'imagenes': imagenes, 'mensaje': "Lista de imagenes de mitos e historias"})
     else:
         return jsonify({"mensaje": "Error"})   
 
 ###################################################################################################
-# Método: getGodById
+# Método: getMitosHistoriasById
 # Descripción:
 # Este método se utiliza para obtener los datos de un dios específico por su ID.
 # Busca en la base de datos los campos asociados al dios y los devuelve como
 # respuesta en formato JSON.
 #
-# URL: /diosesById/<id>
+# URL: /mitosHistoriasById/<id>
 #
 # Método HTTP: GET
 # Parámetros de URL: <id> (int): El ID del dios que se desea obtener.
 ###################################################################################################
-@dioses_app.route('/diosesById/<id>', methods=['GET'])
-def getGodById(id):
-    dioses = Dioses.getGodById(id)
-    if dioses is not None:
-        return jsonify({'Dios': dioses, 'mensaje': "Se encontro el Dios"})
+@proceso_construcciones_app.route('/getProcesoConstruccionesById/<id>', methods=['GET'])
+def getProcesoConstruccionesById(id):
+    proceso_construcciones = ProcesoConstrucciones.getProcesoConstruccionesById(id)
+    if proceso_construcciones is not None:
+        return jsonify({'Proceso_construccion': proceso_construcciones, 'mensaje': "Se encontró el proceso de construcción"})
     else:
         return jsonify({"mensaje": "Error"}) 
 
 
-@dioses_app.route('/filtrarDioses/<id>', methods=['GET'])
-def filtrarDioses(id):
-    dioses = Dioses.filtrarDioses(id)
-    if dioses is not None:
-        return jsonify({'dioses': dioses, 'mensaje': "Lista de dioses egipcios"})
-    else:
-        return jsonify({"mensaje": "Error"})
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

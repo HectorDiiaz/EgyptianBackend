@@ -11,6 +11,17 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.message import EmailMessage
 
+from flask import Flask, redirect, url_for
+from flask_dance.contrib.google import make_google_blueprint, google
+
+# import os
+# import pathlib
+# import requests
+# from google.oauth2 import id_token
+# from google_auth_oauthlib.flow import Flow
+# from pip._vendor import cachecontrol
+# import google.auth.transport.requests
+
 
 #Se instala PyJWT para poder codificar
 # Configuración de la conexión a la base de datos MySQL
@@ -44,7 +55,8 @@ class Login:
                 usuario = {
                     'correo': result[4],
                     'password': result[5],
-                    'id': result[0]
+                    'id': result[0],
+                    'estado': result[8]
                     # Añade más campos según la estructura de la tabla "usuario"
                 }
             cursor.close()
@@ -62,16 +74,14 @@ class Login:
         usuario = request.get_json()
         correo = usuario.get('correo')
         password = usuario.get('password')
-
         usuarioLogin = Login.consultarUsuarioCorreo(request)  # Pasar el objeto request a la función consultarUsuarioCorreo()
 
-        print(usuarioLogin)
 
         if 'correo' not in usuario:
             raise Exception("'correo' no está presente en los datos del usuario")
 
         # Aquí puedes realizar la lógica de validación del correo y contraseña
-        if usuarioLogin is not None and correo == usuarioLogin.get('correo') and password == usuarioLogin.get('password'):
+        if usuarioLogin is not None and correo == usuarioLogin.get('correo') and password == usuarioLogin.get('password') and usuarioLogin.get('estado')==1:
             # Generar el token de autenticación con información adicional (como el ID del usuario)
             token = jwt.encode({'id_usuario': usuarioLogin.get('id')}, 'secreto', algorithm='HS256')
 
@@ -93,6 +103,14 @@ class Login:
                 'token': token,  # Convertir el token a cadena de texto
                 'id_usuario': usuarioLogin.get('id')
             }
+        elif usuarioLogin is not None and correo == usuarioLogin.get('correo') and password == usuarioLogin.get('password') and usuarioLogin.get('estado')!= 1:
+                    respuesta = {
+                    'status': 400,
+                    'valida': 'Algo',
+                    'mensaje': 'Su cuenta ha sido eliminada, contactar con un administrador. - admin@icoders.com.co',
+                    'token': '',
+                    'id_usuario': None
+                }
         else:
             respuesta = {
                 'status': 400,
@@ -108,6 +126,35 @@ class Login:
         }
         
         return response
+    
+    # @staticmethod
+    # def login_google():
+    #     authorization_url, state = flow.authorization_url()
+    #     session["state"] = state
+    #     return redirect(authorization_url)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @staticmethod
     def recuperarClave(correoR):
         try:
